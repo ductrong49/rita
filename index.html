@@ -1,210 +1,135 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>THỜI KHÓA BIỂU LỚP 8A9</title>
 <style>
-  :root{
-    --col-2: #cfefff; /* Thứ 2 */
-    --col-3: #dfffe9; /* Thứ 3 */
-    --col-4: #fff4d6; /* Thứ 4 */
-    --col-5: #ffe9ea; /* Thứ 5 */
-    --col-6: #f3eeff; /* Thứ 6 */
-    --col-7: #fff0f7; /* Thứ 7 */
-
-    --head-2: #6bb5ff;
-    --head-3: #78e8c6;
-    --head-4: #fbc971;
-    --head-5: #ffa1a1;
-    --head-6: #bfa8ff;
-    --head-7: #ffb6e0;
-  }
-
-  html,body{height:100%;margin:0;}
-  body{
-    font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    background: url('background.jpg') center/cover no-repeat fixed;
-  }
-
-  .wrap{
-    max-width:1100px;
-    margin:28px auto;
-    background: rgba(255,255,255,0.92);
-    border-radius:12px;
-    padding:18px;
-    box-shadow: 0 8px 30px rgba(0,0,0,0.15);
-  }
-
-  header{
-    text-align:center;
-    margin-bottom:14px;
-  }
-  h1{
-    margin:6px 0 4px;
-    font-size:28px;
-    letter-spacing:1px;
-    color:#113;
-  }
-  .meta{
-    font-size:14px;
-    color:#444;
-    margin-bottom:12px;
-  }
-
-  .meta .teacher{font-weight:700; color:#0b3553;}
-  .meta .tel{margin-left:10px;color:#0b3553;}
-
-  table{
-    width:100%;
-    border-collapse:collapse;
-    background:transparent;
-    overflow:hidden;
-    border-radius:8px;
-  }
-  thead th{
-    padding:10px 8px;
-    color:#fff;
-    font-size:14px;
-    text-align:center;
-  }
-  thead th:first-child{ background:transparent; color:#333; text-align:left; padding-left:14px; font-weight:700; }
-
-  /* header colors */
-  thead th:nth-child(2){ background:var(--head-2); }
-  thead th:nth-child(3){ background:var(--head-3); }
-  thead th:nth-child(4){ background:var(--head-4); color:#111; }
-  thead th:nth-child(5){ background:var(--head-5); color:#111; }
-  thead th:nth-child(6){ background:var(--head-6); }
-  thead th:nth-child(7){ background:var(--head-7); color:#111; }
-
-  td{ padding:10px 8px; border:1px solid rgba(0,0,0,0.06); vertical-align:middle; font-size:14px; }
-  tbody td:first-child{ text-align:left; font-weight:600; background:#fafafa; width:88px; }
-
-  /* column backgrounds (content) */
-  tbody td:nth-child(2){ background:var(--col-2); }
-  tbody td:nth-child(3){ background:var(--col-3); }
-  tbody td:nth-child(4){ background:var(--col-4); }
-  tbody td:nth-child(5){ background:var(--col-5); }
-  tbody td:nth-child(6){ background:var(--col-6); }
-  tbody td:nth-child(7){ background:var(--col-7); }
-
-  /* session titles */
-  .session-row td{
-    background:#eef3f7;
-    text-align:left;
-    font-weight:700;
-    padding-left:12px;
-    color:#333;
-    border-top:2px solid rgba(0,0,0,0.04);
-  }
-
-  /* morning and afternoon text colors */
-  .morning td:not(.session-td) { color:#0066CC; font-weight:600; }
-  .afternoon td:not(.session-td) { color:#8B4513; font-weight:600; }
-
-  /* small note when empty */
-  .empty { color: #8a8a8a; font-weight:500; }
-
-  /* responsive */
-  @media (max-width:820px){
-    .wrap{ padding:12px; }
-    thead th, td{ font-size:13px; padding:8px; }
-    tbody td:first-child{ width:68px; }
-  }
+    body {
+        font-family: Arial, sans-serif;
+        background: url('background.jpg') no-repeat center center fixed;
+        background-size: cover;
+        margin: 0;
+        padding: 0;
+    }
+    h1 {
+        text-align: center;
+        margin-top: 10px;
+        color: darkblue;
+        background-color: rgba(255,255,255,0.8);
+        padding: 10px;
+        border-radius: 10px;
+        display: inline-block;
+    }
+    .info {
+        text-align: center;
+        margin: 5px 0;
+        font-size: 16px;
+        color: black;
+        background-color: rgba(255,255,255,0.8);
+        padding: 5px;
+        border-radius: 10px;
+        display: inline-block;
+    }
+    table {
+        width: 95%;
+        margin: 20px auto;
+        border-collapse: collapse;
+        background-color: rgba(255,255,255,0.9);
+    }
+    th, td {
+        border: 1px solid #999;
+        padding: 8px;
+        text-align: center;
+    }
+    th {
+        background-color: #77c;
+        color: white;
+    }
+    .morning {
+        color: blue;
+    }
+    .afternoon {
+        color: brown;
+    }
 </style>
 </head>
 <body>
-  <div class="wrap">
-    <header>
-      <h1>THỜI KHÓA BIỂU LỚP 8A9</h1>
-      <div class="meta">
-        Giáo viên chủ nhiệm: <span class="teacher">NGUYỄN THỊ A</span>
-        <span class="tel">SĐT: 0912345678</span>
-      </div>
-    </header>
 
-    <div id="table-wrap">
-      <table id="tkb">
-        <thead>
-          <tr>
-            <th>Tiết</th>
+<div style="text-align:center;">
+    <h1>THỜI KHÓA BIỂU LỚP 8A9</h1>
+    <div class="info">Giáo viên chủ nhiệm: NGUYỄN THỊ A - SĐT: 0912345678</div>
+    <div class="info" id="currentDate"></div>
+    <div class="info" id="weekInfo"></div>
+</div>
+
+<table id="tkbTable">
+    <thead>
+        <tr>
+            <th>Buổi/Tiết</th>
             <th>Thứ 2</th>
             <th>Thứ 3</th>
             <th>Thứ 4</th>
             <th>Thứ 5</th>
             <th>Thứ 6</th>
             <th>Thứ 7</th>
-          </tr>
-        </thead>
-        <tbody>
-          <!-- Buổi sáng -->
-          <tr class="session-row"><td class="session-td" colspan="7">Buổi Sáng</td></tr>
-          <tr class="morning"><td>Tiết 1</td><td data-pos="B3"></td><td data-pos="C3"></td><td data-pos="D3"></td><td data-pos="E3"></td><td data-pos="F3"></td><td data-pos="G3"></td></tr>
-          <tr class="morning"><td>Tiết 2</td><td data-pos="B4"></td><td data-pos="C4"></td><td data-pos="D4"></td><td data-pos="E4"></td><td data-pos="F4"></td><td data-pos="G4"></td></tr>
-          <tr class="morning"><td>Tiết 3</td><td data-pos="B5"></td><td data-pos="C5"></td><td data-pos="D5"></td><td data-pos="E5"></td><td data-pos="F5"></td><td data-pos="G5"></td></tr>
-          <tr class="morning"><td>Tiết 4</td><td data-pos="B6"></td><td data-pos="C6"></td><td data-pos="D6"></td><td data-pos="E6"></td><td data-pos="F6"></td><td data-pos="G6"></td></tr>
-          <tr class="morning"><td>Tiết 5</td><td data-pos="B7"></td><td data-pos="C7"></td><td data-pos="D7"></td><td data-pos="E7"></td><td data-pos="F7"></td><td data-pos="G7"></td></tr>
-
-          <!-- Buổi chiều -->
-          <tr class="session-row"><td class="session-td" colspan="7">Buổi Chiều</td></tr>
-          <tr class="afternoon"><td>Tiết 1</td><td data-pos="B9"></td><td data-pos="C9"></td><td data-pos="D9"></td><td data-pos="E9"></td><td data-pos="F9"></td><td data-pos="G9"></td></tr>
-          <tr class="afternoon"><td>Tiết 2</td><td data-pos="B10"></td><td data-pos="C10"></td><td data-pos="D10"></td><td data-pos="E10"></td><td data-pos="F10"></td><td data-pos="G10"></td></tr>
-          <tr class="afternoon"><td>Tiết 3</td><td data-pos="B11"></td><td data-pos="C11"></td><td data-pos="D11"></td><td data-pos="E11"></td><td data-pos="F11"></td><td data-pos="G11"></td></tr>
-          <tr class="afternoon"><td>Tiết 4</td><td data-pos="B12"></td><td data-pos="C12"></td><td data-pos="D12"></td><td data-pos="E12"></td><td data-pos="F12"></td><td data-pos="G12"></td></tr>
-          <tr class="afternoon"><td>Tiết 5</td><td data-pos="B13"></td><td data-pos="C13"></td><td data-pos="D13"></td><td data-pos="E13"></td><td data-pos="F13"></td><td data-pos="G13"></td></tr>
-        </tbody>
-      </table>
-    </div>
-    <div id="status" style="margin-top:12px; color:#666; font-size:13px; text-align:right;"></div>
-  </div>
+        </tr>
+    </thead>
+    <tbody id="tkbBody">
+    </tbody>
+</table>
 
 <script>
-(async function(){
-  const EXEC_URL = "https://script.google.com/macros/s/AKfycbzTElxNBgS5_ZhoFR-JxRtUKUeGox70eh3p_Z9O6p9XZmm1YYJD3KhaCbGYojqVtPOx/exec";
+    const url = "https://script.google.com/macros/s/AKfycbzTElxNBgS5_ZhoFR-JxRtUKUeGox70eh3p_Z9O6p9XZmm1YYJD3KhaCbGYojqVtPOx/exec";
 
-  // Utility: convert A1 like "B3" to zero-based row/col indexes
-  function a1ToIdx(a1){
-    const colLetters = a1.match(/^[A-Z]+/)[0];
-    const row = parseInt(a1.match(/\d+$/)[0],10) - 1;
-    // convert letters to 0-based index
-    let col = 0;
-    for (let i=0;i<colLetters.length;i++){
-      col = col * 26 + (colLetters.charCodeAt(i) - 65 + 1);
+    fetch(url)
+        .then(res => res.json())
+        .then(data => {
+            const body = document.getElementById('tkbBody');
+            body.innerHTML = "";
+
+            let rows = [];
+
+            // Buổi sáng: tiết 1-5 (B3->B7)
+            for (let i = 3; i <= 7; i++) {
+                let row = `<tr class="morning"><td>Sáng - Tiết ${i-2}</td>`;
+                for (let col = 1; col <= 6; col++) {
+                    row += `<td>${data[i][col] || ''}</td>`;
+                }
+                row += "</tr>";
+                rows.push(row);
+            }
+
+            // Buổi chiều: tiết 1-5 (B9->B13)
+            for (let i = 9; i <= 13; i++) {
+                let row = `<tr class="afternoon"><td>Chiều - Tiết ${i-8}</td>`;
+                for (let col = 1; col <= 6; col++) {
+                    row += `<td>${data[i][col] || ''}</td>`;
+                }
+                row += "</tr>";
+                rows.push(row);
+            }
+
+            body.innerHTML = rows.join("");
+        });
+
+    // Hiển thị ngày hiện tại
+    const today = new Date();
+    const days = ["Chủ nhật", "Thứ 2", "Thứ 3", "Thứ 4", "Thứ 5", "Thứ 6", "Thứ 7"];
+    document.getElementById('currentDate').textContent =
+        days[today.getDay()] + ", " + today.toLocaleDateString('vi-VN');
+
+    // Tính tuần hoặc đếm ngược
+    const startDate = new Date(2025, 8, 8); // 8/9/2025 (tháng 8 vì JS bắt đầu từ 0)
+    let diff = today - startDate;
+    if (diff >= 0) {
+        let week = Math.floor(diff / (7*24*60*60*1000)) + 1;
+        document.getElementById('weekInfo').textContent = "Tuần học: " + week;
+    } else {
+        let daysLeft = Math.ceil((startDate - today) / (24*60*60*1000));
+        document.getElementById('weekInfo').textContent = "Còn " + daysLeft + " ngày đến tuần 1";
     }
-    return { r: row, c: col - 1 };
-  }
-
-  // fetch sheet JSON (Apps Script doGet should return array-of-rows)
-  try {
-    const res = await fetch(EXEC_URL + "?_=" + Date.now(), { cache: "no-store" });
-    if (!res.ok) throw new Error("HTTP " + res.status);
-    const sheet = await res.json(); // expected: 2D array like data[row][col]
-
-    // fill cells by data-pos attributes
-    document.querySelectorAll("[data-pos]").forEach(td => {
-      const a1 = td.getAttribute("data-pos");
-      const {r,c} = a1ToIdx(a1);
-      let text = "";
-      if (sheet && Array.isArray(sheet[r]) && sheet[r][c] != null && sheet[r][c] !== "") {
-        text = sheet[r][c];
-      } else {
-        text = ""; // empty
-      }
-      // If cell contains newline or " - " show on two lines
-      td.innerHTML = text ? text.toString().replace(/\n/g,"<br>") : '<span class="empty">—</span>';
-    });
-
-    document.getElementById("status").textContent = "Dữ liệu cập nhật từ Sheet1.";
-  } catch (err) {
-    console.error(err);
-    document.getElementById("status").textContent = "Không thể tải dữ liệu: " + err.message;
-    // keep placeholders visible
-    document.querySelectorAll("[data-pos]").forEach(td=>{
-      if (!td.innerHTML) td.innerHTML = '<span class="empty">—</span>';
-    });
-  }
-})();
 </script>
+
 </body>
 </html>
