@@ -5,6 +5,11 @@
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>THỜI KHÓA BIỂU LỚP 8A9</title>
 <style>
+  /* Căn giữa chữ trong các ô môn học (các cột từ thứ 2 đến thứ 7) */
+tbody td:nth-child(n+2) {
+  text-align: center;
+}
+
   :root{
     --col-2: #cfefff; /* Thứ 2 */
     --col-3: #dfffe9; /* Thứ 3 */
@@ -54,7 +59,7 @@
 
   .meta .teacher{font-weight:700; color:#0b3553;}
   .meta .tel{margin-left:10px;color:#0b3553;}
-
+  
   table{
     width:100%;
     border-collapse:collapse;
