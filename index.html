@@ -22,7 +22,7 @@
   }
 
   html,body{height:100%;margin:0;}
-  // ngay hien tai
+
   <div id="info-date" style="margin-top:14px; font-size:15px; color:#333; text-align:right; font-weight:600;"></div>
 
 <script>
@@ -242,5 +242,41 @@ function getWeekNumber(date) {
   }
 })();
 </script>
+// ngay hien tai
+<div id="info-date" style="margin-top:14px; font-size:15px; color:#333; text-align:right; font-weight:600;"></div>
+
+<script>
+// Hàm định dạng ngày tháng tiếng Việt, ví dụ: Thứ Hai, 11 tháng 8 năm 2025
+function formatVietnameseDate(date) {
+  const days = ['Chủ Nhật', 'Thứ Hai', 'Thứ Ba', 'Thứ Tư', 'Thứ Năm', 'Thứ Sáu', 'Thứ Bảy'];
+  const dayName = days[date.getDay()];
+  const d = date.getDate();
+  const m = date.getMonth() + 1;
+  const y = date.getFullYear();
+  return `${dayName}, ${d} tháng ${m} năm ${y}`;
+}
+
+// Hàm tính số tuần bắt đầu từ ngày 8/9/2025
+function getWeekNumber(date) {
+  const startDate = new Date(2025, 8, 8); // tháng 8 là tháng 9 (0-based)
+  const diffMs = date - startDate;
+  if(diffMs < 0) return 0; // chưa đến tuần 1
+  const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+  return Math.floor(diffDays / 7) + 1;
+}
+
+(function(){
+  const now = new Date();
+  const formattedDate = formatVietnameseDate(now);
+  const weekNum = getWeekNumber(now);
+  const infoEl = document.getElementById("info-date");
+  if(weekNum > 0) {
+    infoEl.textContent = `Hôm nay là ${formattedDate} — Tuần học thứ ${weekNum}`;
+  } else {
+    infoEl.textContent = `Hôm nay là ${formattedDate} — Chưa đến tuần học thứ 1 (bắt đầu từ 8/9/2025)`;
+  }
+})();
+</script>
+
 </body>
 </html>
