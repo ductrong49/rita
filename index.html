@@ -1,133 +1,111 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>THỜI KHÓA BIỂU LỚP 8A9</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: url('background.jpg') no-repeat center center fixed;
-            background-size: cover;
-            margin: 0;
-            padding: 0;
-        }
-        .container {
-            max-width: 1000px;
-            margin: auto;
-            background: rgba(255, 255, 255, 0.9);
-            padding: 20px;
-            border-radius: 10px;
-        }
-        h1 {
-            text-align: center;
-            color: #2c3e50;
-        }
-        .info {
-            text-align: center;
-            font-size: 18px;
-            margin-bottom: 10px;
-        }
-        .week-info {
-            text-align: center;
-            font-size: 18px;
-            color: #8e44ad;
-            margin-bottom: 15px;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            text-align: center;
-        }
-        th, td {
-            border: 1px solid #ccc;
-            padding: 8px;
-        }
-        th {
-            color: white;
-        }
-        /* Màu cột Thứ 2 đến Thứ 7 */
-        th:nth-child(2) { background: #f28b82; }
-        th:nth-child(3) { background: #fbbc04; }
-        th:nth-child(4) { background: #fff475; color: #333; }
-        th:nth-child(5) { background: #ccff90; color: #333; }
-        th:nth-child(6) { background: #a7ffeb; color: #333; }
-        th:nth-child(7) { background: #cbf0f8; color: #333; }
-
-        /* Màu nội dung cột */
-        td:nth-child(2) { background: #fde0dc; }
-        td:nth-child(3) { background: #fff4e5; }
-        td:nth-child(4) { background: #ffffe0; }
-        td:nth-child(5) { background: #e6ffea; }
-        td:nth-child(6) { background: #e0f7f4; }
-        td:nth-child(7) { background: #e0f7fa; }
-
-        .morning { color: blue; font-weight: bold; }
-        .afternoon { color: brown; font-weight: bold; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thời Khóa Biểu</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+        text-align: center;
+    }
+    header {
+        background: #4CAF50;
+        color: white;
+        padding: 15px;
+        font-size: 24px;
+        font-weight: bold;
+    }
+    .info {
+        margin: 10px 0;
+        font-size: 18px;
+    }
+    table {
+        margin: 20px auto;
+        border-collapse: collapse;
+        width: 95%;
+        background: white;
+    }
+    th, td {
+        border: 1px solid #ccc;
+        padding: 8px;
+        text-align: center;
+    }
+    th {
+        background: #4CAF50;
+        color: white;
+    }
+</style>
 </head>
 <body>
-    <div class="container">
-        <h1>THỜI KHÓA BIỂU LỚP 8A9</h1>
-        <div class="info">GVCN: NGUYỄN THỊ A | SĐT: 0912345678</div>
-        <div id="today" class="info"></div>
-        <div id="weekInfo" class="week-info"></div>
-        <table id="tkb">
-            <thead>
-                <tr>
-                    <th>Buổi/Tiết</th>
-                    <th>Thứ 2</th>
-                    <th>Thứ 3</th>
-                    <th>Thứ 4</th>
-                    <th>Thứ 5</th>
-                    <th>Thứ 6</th>
-                    <th>Thứ 7</th>
-                </tr>
-            </thead>
-            <tbody id="schedule"></tbody>
-        </table>
-    </div>
 
-    <script>
-        // Hiển thị ngày hiện tại
-        const days = ['Chủ Nhật', 'Thứ 2', 'Thứ 3', 'Thứ 4', 'Thứ 5', 'Thứ 6', 'Thứ 7'];
-        const now = new Date();
-        document.getElementById('today').innerText =
-            `${days[now.getDay()]}, ${now.getDate()}/${now.getMonth()+1}/${now.getFullYear()}`;
+<header>THỜI KHÓA BIỂU LỚP 8A9</header>
+<div class="info">Giáo viên chủ nhiệm: Nguyễn Thị A - 0912345678</div>
+<div class="info" id="current-date"></div>
+<div class="info" id="week-info"></div>
 
-        // Tính số tuần
-        const startDate = new Date(2025, 8, 8); // 8/9/2025
-        const diffDays = Math.floor((now - startDate) / (1000 * 60 * 60 * 24));
-        if (diffDays >= 0) {
-            const weekNumber = Math.floor(diffDays / 7) + 1;
-            document.getElementById('weekInfo').innerText = `Tuần học: ${weekNumber}`;
-        } else {
-            document.getElementById('weekInfo').innerText =
-                `Còn ${Math.abs(diffDays)} ngày nữa đến tuần học đầu tiên`;
+<table id="schedule">
+    <thead>
+        <tr id="table-header"></tr>
+    </thead>
+    <tbody id="table-body"></tbody>
+</table>
+
+<script>
+const apiURL = "https://script.google.com/macros/s/AKfycbzTElxNBgS5_ZhoFR-JxRtUKUeGox70eh3p_Z9O6p9XZmm1YYJD3KhaCbGYojqVtPOx/exec";
+
+// Hiển thị thứ & ngày hiện tại
+function updateCurrentDate() {
+    const today = new Date();
+    const daysOfWeek = ["Chủ nhật", "Thứ 2", "Thứ 3", "Thứ 4", "Thứ 5", "Thứ 6", "Thứ 7"];
+    document.getElementById("current-date").textContent = 
+        daysOfWeek[today.getDay()] + ", " + today.toLocaleDateString("vi-VN");
+}
+
+// Tính số tuần từ ngày 8/9/2025
+function updateWeekInfo() {
+    const startDate = new Date(2025, 8, 8); // Tháng 9 là 8 (0-based)
+    const today = new Date();
+    if (today < startDate) {
+        const daysLeft = Math.ceil((startDate - today) / (1000 * 60 * 60 * 24));
+        document.getElementById("week-info").textContent = `Còn ${daysLeft} ngày đến Tuần 1 (08/09/2025)`;
+    } else {
+        const weekNumber = Math.floor((today - startDate) / (1000 * 60 * 60 * 24 * 7)) + 1;
+        document.getElementById("week-info").textContent = `Tuần học: ${weekNumber}`;
+    }
+}
+
+// Lấy dữ liệu từ Google Sheet
+fetch(apiURL)
+    .then(res => res.json())
+    .then(data => {
+        if (data.length > 0) {
+            const headerRow = document.getElementById("table-header");
+            data[0].forEach(col => {
+                let th = document.createElement("th");
+                th.textContent = col;
+                headerRow.appendChild(th);
+            });
+
+            const body = document.getElementById("table-body");
+            data.slice(1).forEach(row => {
+                let tr = document.createElement("tr");
+                row.forEach(cell => {
+                    let td = document.createElement("td");
+                    td.textContent = cell;
+                    tr.appendChild(td);
+                });
+                body.appendChild(tr);
+            });
         }
+    });
 
-        // Lấy dữ liệu từ Google Sheet
-        fetch('https://script.google.com/macros/s/AKfycbzTElxNBgS5_ZhoFR-JxRtUKUeGox70eh3p_Z9O6p9XZmm1YYJD3KhaCbGYojqVtPOx/exec')
-        .then(res => res.json())
-        .then(data => {
-            const schedule = document.getElementById('schedule');
-            const buoiSang = ['Sáng - Tiết 1', 'Sáng - Tiết 2', 'Sáng - Tiết 3', 'Sáng - Tiết 4', 'Sáng - Tiết 5'];
-            const buoiChieu = ['Chiều - Tiết 1', 'Chiều - Tiết 2', 'Chiều - Tiết 3', 'Chiều - Tiết 4', 'Chiều - Tiết 5'];
+updateCurrentDate();
+updateWeekInfo();
+</script>
 
-            buoiSang.forEach((tiet, i) => {
-                const row = document.createElement('tr');
-                row.innerHTML = `<td class="morning">${tiet}</td>` +
-                    data[i].slice(1, 7).map(mon => `<td>${mon}</td>`).join('');
-                schedule.appendChild(row);
-            });
-
-            buoiChieu.forEach((tiet, i) => {
-                const row = document.createElement('tr');
-                row.innerHTML = `<td class="afternoon">${tiet}</td>` +
-                    data[i + 5].slice(1, 7).map(mon => `<td>${mon}</td>`).join('');
-                schedule.appendChild(row);
-            });
-        });
-    </script>
 </body>
 </html>
