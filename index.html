@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8" />
+<title>Thời khóa biểu Lớp 8A9</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    max-width: 900px;
+    margin: 20px auto;
+    padding: 0 10px;
+    background-image: url('background.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-color: #f0f0f0;
+  }
+  h1, #weekInfo, #lastUpdated, #homeroomTeacher {
+    background-color: rgba(200, 200, 200, 0.7);
+    padding: 8px;
+    border-radius: 8px;
+    text-align: center;
+  }
+  h1 { color: #1e3a8a; }
+  #weekInfo, #homeroomTeacher { font-weight: bold; color: #1e3a8a; }
+  #lastUpdated { font-style: italic; }
+  table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+  th {
+    background-color: #0b6623;
+    color: white;
+    padding: 8px;
+    text-align: center;
+  }
+  td {
+    border: 1px solid #ccc;
+    padding: 6px 8px;
+    text-align: center;
+    background-color: white;
+  }
+  .thu2 { background-color: #d0f0fd; }
+  .thu3 { background-color: #d0fde4; }
+  .thu4 { background-color: #fdf7d0; }
+  .thu5 { background-color: #fde0d0; }
+  .thu6 { background-color: #e9d0fd; }
+  .thu7 { background-color: #f0d0d0; }
+  .session-title {
+    font-weight: bold;
+    font-size: 1.1em;
+    background-color: white;
+    border-top: 2px solid #ccc;
+    border-bottom: 2px solid #ccc;
+  }
+  .morning-title { color: #1e3a8a; }
+  .afternoon-title { color: #8b4513; }
+</style>
+</head>
+<body>
+
+<h1>THỜI KHÓA BIỂU LỚP 8A9</h1>
+<div id="weekInfo"></div>
+<div id="lastUpdated"></div>
+
+<table>
+  <thead>
+    <tr>
+      <th>Buổi / Tiết</th>
+      <th class="thu2">Thứ 2</th>
+      <th class="thu3">Thứ 3</th>
+      <th class="thu4">Thứ 4</th>
+      <th class="thu5">Thứ 5</th>
+      <th class="thu6">Thứ 6</th>
+      <th class="thu7">Thứ 7</th>
+    </tr>
+  </thead>
+  <tbody id="scheduleBody"></tbody>
+</table>
+
+<div id="homeroomTeacher">Giáo viên chủ nhiệm: Nguyễn Thị A - SĐT: 0912345678</div>
+
+<script>
+const dataUrl = "PASTE_WEB_APP_URL_HERE";
+const days = ["Thứ 2", "Thứ 3", "Thứ 4", "Thứ 5", "Thứ 6", "Thứ 7"];
+const classes = ["thu2", "thu3", "thu4", "thu5", "thu6", "thu7"];
+
+function updateWeekInfo() {
+  const startDate = new Date("2025-09-08T00:00:00");
+  const now = new Date();
+  const diffMs = now - startDate;
+  const weekInfoDiv = document.getElementById("weekInfo");
+
+  if(diffMs < 0) {
+    const diffDays = Math.ceil(Math.abs(diffMs) / (1000 * 60 * 60 * 24));
+    weekInfoDiv.textContent = `Còn ${diffDays} ngày đến tuần học bắt đầu (08/09/2025)`;
+  } else {
+    const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+    const weekNumber = Math.floor(diffDays / 7) + 1;
+    weekInfoDiv.textContent = `Tuần học hiện tại: Tuần ${weekNumber}`;
+  }
+}
+updateWeekInfo();
+
+fetch(dataUrl)
+  .then(res => res.json())
+  .then(data => {
+    document.getElementById("lastUpdated").textContent =
+      "Cập nhật lần cuối: " + new Date(data.lastUpdated).toLocaleString("vi-VN");
+
+    const tbody = document.getElementById("scheduleBody");
+    const morningPeriods = 5, afternoonPeriods = 5;
+
+    // Buổi sáng
+    let trMorning = document.createElement("tr");
+    let tdMorning = document.createElement("td");
+    tdMorning.colSpan = 7;
+    tdMorning.textContent = "Buổi Sáng";
+    tdMorning.classList.add("session-title", "morning-title");
+    trMorning.appendChild(tdMorning);
+    tbody.appendChild(trMorning);
+
+    for(let i=0; i<morningPeriods; i++) {
+      const tr = document.createElement("tr");
+      const tdBuoi = document.createElement("td");
+      tdBuoi.textContent = `Tiết ${i+1}`;
+      tr.appendChild(tdBuoi);
+
+      for(let d=0; d<days.length; d++) {
+        const td = document.createElement("td");
+        td.classList.add(classes[d]);
+        td.textContent = data.schedule[days[d]]?.morning?.[i] || "";
+        tr.appendChild(td);
+      }
+      tbody.appendChild(tr);
+    }
+
+    // Buổi chiều
+    let trAfternoon = document.createElement("tr");
+    let tdAfternoon = document.createElement("td");
+    tdAfternoon.colSpan = 7;
+    tdAfternoon.textContent = "Buổi Chiều";
+    tdAfternoon.classList.add("session-title", "afternoon-title");
+    trAfternoon.appendChild(tdAfternoon);
+    tbody.appendChild(trAfternoon);
+
+    for(let i=0; i<afternoonPeriods; i++) {
+      const tr = document.createElement("tr");
+      const tdBuoi = document.createElement("td");
+      tdBuoi.textContent = `Tiết ${i+1}`;
+      tr.appendChild(tdBuoi);
+
+      for(let d=0; d<days.length; d++) {
+        const td = document.createElement("td");
+        td.classList.add(classes[d]);
+        td.textContent = data.schedule[days[d]]?.afternoon?.[i] || "";
+        tr.appendChild(td);
+      }
+      tbody.appendChild(tr);
+    }
+  })
+  .catch(() => alert("Không tải được dữ liệu!"));
+</script>
+</body>
+</html>
