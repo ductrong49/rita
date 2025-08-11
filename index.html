@@ -6,83 +6,102 @@
 <style>
     body {
         font-family: Arial, sans-serif;
-        background: #f0f0f0;
-        margin: 0;
-        padding: 0;
-        text-align: center;
+        margin: 20px;
+        background: #f8f9fa;
     }
     h1 {
-        background-color: #4CAF50;
-        color: white;
-        padding: 15px;
-        margin: 0;
+        text-align: center;
+        margin-bottom: 20px;
     }
     table {
-        margin: 20px auto;
         border-collapse: collapse;
+        width: 100%;
         background: white;
-        box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
     th, td {
         border: 1px solid #ccc;
-        padding: 10px;
+        padding: 8px;
+        text-align: center;
     }
     th {
-        background-color: #2E7D32;
         color: white;
+    }
+    /* Màu nền cho các cột Thứ 2 - Thứ 7 */
+    th:nth-child(2) { background: #007bff; } /* Thứ 2 */
+    th:nth-child(3) { background: #28a745; } /* Thứ 3 */
+    th:nth-child(4) { background: #ffc107; color: black; } /* Thứ 4 */
+    th:nth-child(5) { background: #17a2b8; } /* Thứ 5 */
+    th:nth-child(6) { background: #fd7e14; } /* Thứ 6 */
+    th:nth-child(7) { background: #6f42c1; } /* Thứ 7 */
+
+    /* Nhóm sáng và chiều */
+    .group-header {
+        background: #e9ecef;
+        font-weight: bold;
+        text-align: left;
     }
 </style>
 </head>
 <body>
 
 <h1>Thời khóa biểu</h1>
-<table id="scheduleTable">
+<table id="tkb">
     <thead>
-        <tr id="headerRow"></tr>
+        <tr>
+            <th>Tiết</th>
+            <th>Thứ 2</th>
+            <th>Thứ 3</th>
+            <th>Thứ 4</th>
+            <th>Thứ 5</th>
+            <th>Thứ 6</th>
+            <th>Thứ 7</th>
+        </tr>
     </thead>
-    <tbody id="dataRows"></tbody>
+    <tbody>
+        <!-- Buổi sáng -->
+        <tr><td class="group-header" colspan="7">Buổi sáng</td></tr>
+        <tr><td>Tiết 1</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+        <tr><td>Tiết 2</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+        <tr><td>Tiết 3</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+        <tr><td>Tiết 4</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+        <tr><td>Tiết 5</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+
+        <!-- Buổi chiều -->
+        <tr><td class="group-header" colspan="7">Buổi chiều</td></tr>
+        <tr><td>Tiết 1</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+        <tr><td>Tiết 2</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+        <tr><td>Tiết 3</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+        <tr><td>Tiết 4</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+        <tr><td>Tiết 5</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    </tbody>
 </table>
 
 <script>
-    const apiUrl = "https://script.google.com/macros/s/AKfycbzTElxNBgS5_ZhoFR-JxRtUKUeGox70eh3p_Z9O6p9XZmm1YYJD3KhaCbGYojqVtPOx/exec";
+    const sheetURL = "https://script.google.com/macros/s/AKfycbzTElxNBgS5_ZhoFR-JxRtUKUeGox70eh3p_Z9O6p9XZmm1YYJD3KhaCbGYojqVtPOx/exec";
 
-    async function loadData() {
-        try {
-            const res = await fetch(apiUrl);
-            if (!res.ok) throw new Error("Lỗi kết nối API");
-            const data = await res.json();
+    fetch(sheetURL)
+        .then(res => res.json())
+        .then(data => {
+            const table = document.getElementById("tkb");
+            const rows = table.getElementsByTagName("tbody")[0].getElementsByTagName("tr");
 
-            if (!Array.isArray(data) || data.length === 0) {
-                document.getElementById("scheduleTable").innerHTML = "<tr><td>Không có dữ liệu</td></tr>";
-                return;
+            let dataIndex = 0;
+            for (let r = 0; r < rows.length; r++) {
+                const cells = rows[r].getElementsByTagName("td");
+                if (cells.length === 7 && cells[0].textContent.startsWith("Tiết")) {
+                    for (let c = 1; c < 7; c++) {
+                        if (data[dataIndex] && data[dataIndex][c]) {
+                            cells[c].textContent = data[dataIndex][c];
+                        }
+                    }
+                    dataIndex++;
+                }
             }
-
-            const headerRow = document.getElementById("headerRow");
-            headerRow.innerHTML = "";
-            data[0].forEach(cell => {
-                let th = document.createElement("th");
-                th.textContent = cell;
-                headerRow.appendChild(th);
-            });
-
-            const dataRows = document.getElementById("dataRows");
-            dataRows.innerHTML = "";
-            for (let i = 1; i < data.length; i++) {
-                let tr = document.createElement("tr");
-                data[i].forEach(cell => {
-                    let td = document.createElement("td");
-                    td.textContent = cell;
-                    tr.appendChild(td);
-                });
-                dataRows.appendChild(tr);
-            }
-
-        } catch (error) {
-            document.getElementById("scheduleTable").innerHTML = `<tr><td colspan="10">Lỗi tải dữ liệu: ${error.message}</td></tr>`;
-        }
-    }
-
-    loadData();
+        })
+        .catch(err => {
+            console.error(err);
+            alert("Lỗi tải dữ liệu!");
+        });
 </script>
 
 </body>
