@@ -2,54 +2,43 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-<title>Thời Khóa Biểu</title>
+<title>Thời khóa biểu</title>
 <style>
     body {
         font-family: Arial, sans-serif;
-        background-color: #f2f2f2;
-        margin: 0;
-        padding: 20px;
+        margin: 20px;
+        background: #f8f8f8;
     }
     h1 {
         text-align: center;
-        color: #2e7d32;
-    }
-    #last-updated {
-        text-align: center;
-        margin-bottom: 20px;
-        color: #555;
+        color: #2c3e50;
     }
     table {
-        width: 100%;
         border-collapse: collapse;
+        width: 100%;
+        margin-top: 20px;
         background: white;
     }
     th, td {
-        border: 1px solid #ccc;
-        padding: 8px;
+        border: 1px solid #ddd;
+        padding: 10px;
         text-align: center;
     }
     th {
-        background-color: #2e7d32;
+        background: #27ae60;
         color: white;
     }
-    tr:nth-child(even) {
-        background-color: #f9f9f9;
-    }
     .error {
-        text-align: center;
         color: red;
-        font-weight: bold;
+        text-align: center;
     }
 </style>
 </head>
 <body>
 
-<h1>Thời Khóa Biểu</h1>
-<div id="last-updated">Đang tải dữ liệu...</div>
+<h1>Thời khóa biểu</h1>
 <div id="error" class="error"></div>
-
-<table id="schedule-table">
+<table id="scheduleTable">
     <thead>
         <tr>
             <th>Thứ</th>
@@ -57,40 +46,26 @@
             <th>Buổi chiều</th>
         </tr>
     </thead>
-    <tbody>
-    </tbody>
+    <tbody></tbody>
 </table>
 
 <script>
 const API_URL = "https://script.google.com/macros/s/AKfycbxQ-u1Emhbp2NIjq6Qj04r1VBBTRMvgjNuQUz6n8Jb4daFBWTAVd7ufAtVnd2TTLPuY/exec";
 
 fetch(API_URL)
-    .then(response => {
-        if (!response.ok) throw new Error("Không thể kết nối API");
-        return response.json();
-    })
+    .then(res => res.json())
     .then(data => {
-        if (!data.schedule) throw new Error("Dữ liệu không hợp lệ");
-
-        const tbody = document.querySelector("#schedule-table tbody");
+        let tbody = document.querySelector("#scheduleTable tbody");
         tbody.innerHTML = "";
-
-        const daysOrder = ["Thứ 2", "Thứ 3", "Thứ 4", "Thứ 5", "Thứ 6", "Thứ 7"];
-
-        daysOrder.forEach(day => {
-            let row = document.createElement("tr");
-            let morning = data.schedule[day]?.morning?.join("<br>") || "";
-            let afternoon = data.schedule[day]?.afternoon?.join("<br>") || "";
-
-            row.innerHTML = `
+        for (let day in data.schedule) {
+            let tr = document.createElement("tr");
+            tr.innerHTML = `
                 <td>${day}</td>
-                <td>${morning}</td>
-                <td>${afternoon}</td>
+                <td>${data.schedule[day].morning.join("<br>")}</td>
+                <td>${data.schedule[day].afternoon.join("<br>")}</td>
             `;
-            tbody.appendChild(row);
-        });
-
-        document.getElementById("last-updated").innerText = "Cập nhật: " + new Date(data.lastUpdated).toLocaleString("vi-VN");
+            tbody.appendChild(tr);
+        }
     })
     .catch(err => {
         document.getElementById("error").innerText = "Lỗi tải dữ liệu!";
