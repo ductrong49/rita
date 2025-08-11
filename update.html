@@ -1,48 +1,122 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-<meta charset="UTF-8">
-<title>Cập nhật TKB 8A9</title>
-<style>
-body { font-family: Arial; max-width: 800px; margin: auto; padding: 20px; }
-textarea { width: 100%; height: 250px; }
-button { margin-top: 10px; padding: 8px 16px; cursor: pointer; }
-</style>
+  <meta charset="UTF-8">
+  <title>Cập nhật thời khóa biểu</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+      color: #2c3e50;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+      background: white;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 8px;
+      text-align: center;
+    }
+    th {
+      background: #27ae60;
+      color: white;
+    }
+    input {
+      width: 100%;
+      padding: 5px;
+      border: none;
+      outline: none;
+      text-align: center;
+    }
+    button {
+      margin-top: 15px;
+      padding: 10px 20px;
+      font-size: 16px;
+      background: #27ae60;
+      color: white;
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+    button:hover {
+      background: #219150;
+    }
+  </style>
 </head>
 <body>
-<h1>Cập nhật Thời khóa biểu</h1>
-<p>Nhập dữ liệu JSON (mỗi phần tử là 1 hàng)</p>
-<textarea id="jsonInput">[
-  ["Thứ 2","morning","Toán","Văn","Anh","Lý","Hóa"],
-  ["Thứ 2","afternoon","Sử","Địa","CN","SH",""]
-]</textarea>
-<br>
-<button onclick="updateData()">Gửi</button>
+  <h1>Cập nhật thời khóa biểu</h1>
+  <table id="scheduleTable">
+    <thead>
+      <tr>
+        <th>Thứ</th>
+        <th>Buổi</th>
+        <th>Tiết 1</th>
+        <th>Tiết 2</th>
+        <th>Tiết 3</th>
+        <th>Tiết 4</th>
+        <th>Tiết 5</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Mẫu hàng nhập -->
+      <tr>
+        <td><input value="Thứ 2"></td>
+        <td><input value="morning"></td>
+        <td><input></td>
+        <td><input></td>
+        <td><input></td>
+        <td><input></td>
+        <td><input></td>
+      </tr>
+      <tr>
+        <td><input value="Thứ 2"></td>
+        <td><input value="afternoon"></td>
+        <td><input></td>
+        <td><input></td>
+        <td><input></td>
+        <td><input></td>
+        <td><input></td>
+      </tr>
+      <!-- Bạn có thể thêm các hàng cho Thứ 3, Thứ 4... -->
+    </tbody>
+  </table>
 
-<script>
-const updateUrl = "https://docs.google.com/spreadsheets/d/1ckCsWVDPa7qw2NjuBrOjySMZGEb2vCnuGIgXS5l9IM8/edit?usp=sharing";
+  <button onclick="sendData()">Lưu thời khóa biểu</button>
 
-function updateData() {
-  try {
-    const data = JSON.parse(document.getElementById('jsonInput').value);
+  <script>
+    const scriptURL = "https://script.google.com/macros/s/AKfycbxQ-u1Emhbp2NIjq6Qj04r1VBBTRMvgjNuQUz6n8Jb4daFBWTAVd7ufAtVnd2TTLPuY/exec";
 
-    fetch(updateUrl, {
-      method: "POST",
-      body: JSON.stringify(data)
-    })
-    .then(res => res.json())
-    .then(r => {
-      if(r.status === "success") {
-        alert("Cập nhật thành công!");
-      } else {
-        alert("Lỗi cập nhật!");
+    function sendData() {
+      const rows = [];
+      const table = document.querySelector("#scheduleTable tbody");
+      for (let tr of table.rows) {
+        const rowData = [];
+        for (let td of tr.cells) {
+          rowData.push(td.querySelector("input").value.trim());
+        }
+        rows.push(rowData);
       }
-    })
-    .catch(() => alert("Không thể kết nối tới API!"));
-  } catch(e) {
-    alert("JSON không hợp lệ!");
-  }
-}
-</script>
+
+      fetch(scriptURL, {
+        method: "POST",
+        body: JSON.stringify({ rows: rows }),
+        headers: { "Content-Type": "application/json" }
+      })
+      .then(res => res.json())
+      .then(data => {
+        alert(data.message || "Cập nhật thành công!");
+      })
+      .catch(err => {
+        alert("Lỗi: " + err);
+      });
+    }
+  </script>
 </body>
 </html>
