@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Cập nhật TKB 8A9</title>
+<style>
+body { font-family: Arial; max-width: 800px; margin: auto; padding: 20px; }
+textarea { width: 100%; height: 250px; }
+button { margin-top: 10px; padding: 8px 16px; cursor: pointer; }
+</style>
+</head>
+<body>
+<h1>Cập nhật Thời khóa biểu</h1>
+<p>Nhập dữ liệu JSON (mỗi phần tử là 1 hàng)</p>
+<textarea id="jsonInput">[
+  ["Thứ 2","morning","Toán","Văn","Anh","Lý","Hóa"],
+  ["Thứ 2","afternoon","Sử","Địa","CN","SH",""]
+]</textarea>
+<br>
+<button onclick="updateData()">Gửi</button>
+
+<script>
+const updateUrl = "PASTE_WEB_APP_URL_HERE";
+
+function updateData() {
+  try {
+    const data = JSON.parse(document.getElementById('jsonInput').value);
+
+    fetch(updateUrl, {
+      method: "POST",
+      body: JSON.stringify(data)
+    })
+    .then(res => res.json())
+    .then(r => {
+      if(r.status === "success") {
+        alert("Cập nhật thành công!");
+      } else {
+        alert("Lỗi cập nhật!");
+      }
+    })
+    .catch(() => alert("Không thể kết nối tới API!"));
+  } catch(e) {
+    alert("JSON không hợp lệ!");
+  }
+}
+</script>
+</body>
+</html>
