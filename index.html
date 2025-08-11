@@ -1,82 +1,100 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8">
-  <title>Thời khóa biểu</title>
-  <style>
-    body { font-family: Arial, sans-serif; margin: 20px; background: #f7f7f7; }
-    h1 { text-align: center; margin-bottom: 20px; }
-    table { width: 100%; border-collapse: collapse; background: white; }
-    th, td {
-      border: 1px solid #ccc;
-      padding: 8px;
-      text-align: center;
+<meta charset="UTF-8">
+<title>Thời Khóa Biểu</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+        background: #f8f9fa;
+        margin: 0;
+        padding: 20px;
     }
-    th { color: white; }
-    /* Màu nền cho cột Thứ 2 → Thứ 7 */
-    th:nth-child(2) { background: #3498db; } /* Thứ 2 */
-    th:nth-child(3) { background: #2ecc71; } /* Thứ 3 */
-    th:nth-child(4) { background: #f1c40f; color: black;} /* Thứ 4 */
-    th:nth-child(5) { background: #1abc9c; } /* Thứ 5 */
-    th:nth-child(6) { background: #e67e22; } /* Thứ 6 */
-    th:nth-child(7) { background: #9b59b6; } /* Thứ 7 */
+    h1 {
+        margin-bottom: 20px;
+    }
+    table {
+        border-collapse: collapse;
+        margin: 0 auto;
+        background: white;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    th, td {
+        border: 1px solid #ccc;
+        padding: 8px 12px;
+        min-width: 100px;
+    }
+    th {
+        color: white;
+    }
+    .thu2 { background: #4caf50; }
+    .thu3 { background: #2196f3; }
+    .thu4 { background: #ff9800; }
+    .thu5 { background: #9c27b0; }
+    .thu6 { background: #009688; }
+    .thu7 { background: #e91e63; }
+    .buoi {
+        background: #eee;
+        font-weight: bold;
+        text-align: left;
+    }
+</style>
+<script src="https://www.gstatic.com/charts/loader.js"></script>
+<script>
+google.charts.load('current', {packages: ['corechart']});
+google.charts.setOnLoadCallback(loadData);
 
-    .group { background: #ecf0f1; font-weight: bold; text-align: left; }
-  </style>
+function loadData() {
+    const query = new google.visualization.Query(
+        'https://docs.google.com/spreadsheets/d/1ckCsWVDPa7qw2NjuBrOjySMZGEb2vCnuGIgXS5l9IM8/gviz/tq?tqx=out:json'
+    );
+    query.send(handleData);
+}
+
+function handleData(response) {
+    if (response.isError()) {
+        alert('Lỗi tải dữ liệu: ' + response.getMessage());
+        return;
+    }
+
+    const data = response.getDataTable();
+    let html = '<table>';
+    html += '<tr><th></th>' +
+            '<th class="thu2">Thứ 2</th>' +
+            '<th class="thu3">Thứ 3</th>' +
+            '<th class="thu4">Thứ 4</th>' +
+            '<th class="thu5">Thứ 5</th>' +
+            '<th class="thu6">Thứ 6</th>' +
+            '<th class="thu7">Thứ 7</th></tr>';
+
+    // Buổi sáng
+    html += '<tr><td class="buoi" colspan="7">Buổi sáng</td></tr>';
+    for (let row = 2; row <= 6; row++) { // hàng 3-7 trong sheet (index bắt đầu từ 0)
+        html += `<tr><td>Tiết ${row - 1}</td>`;
+        for (let col = 1; col <= 6; col++) { // B → G
+            html += `<td>${data.getFormattedValue(row, col) || ''}</td>`;
+        }
+        html += '</tr>';
+    }
+
+    // Buổi chiều
+    html += '<tr><td class="buoi" colspan="7">Buổi chiều</td></tr>';
+    for (let row = 8; row <= 12; row++) { // hàng 9-13
+        html += `<tr><td>Tiết ${row - 7}</td>`;
+        for (let col = 1; col <= 6; col++) { // B → G
+            html += `<td>${data.getFormattedValue(row, col) || ''}</td>`;
+        }
+        html += '</tr>';
+    }
+
+    html += '</table>';
+    document.getElementById('tkb').innerHTML = html;
+}
+</script>
 </head>
 <body>
-
-<h1>Thời khóa biểu</h1>
-<table id="timetable">
-  <thead>
-    <tr>
-      <th>Tiết</th>
-      <th>Thứ 2</th>
-      <th>Thứ 3</th>
-      <th>Thứ 4</th>
-      <th>Thứ 5</th>
-      <th>Thứ 6</th>
-      <th>Thứ 7</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr><td class="group" colspan="7">Buổi sáng</td></tr>
-    <tr><td>Tiết 1</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-    <tr><td>Tiết 2</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-    <tr><td>Tiết 3</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-    <tr><td>Tiết 4</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-    <tr><td>Tiết 5</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-
-    <tr><td class="group" colspan="7">Buổi chiều</td></tr>
-    <tr><td>Tiết 1</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-    <tr><td>Tiết 2</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-    <tr><td>Tiết 3</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-    <tr><td>Tiết 4</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-    <tr><td>Tiết 5</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-  </tbody>
-</table>
-
-<script>
-const API_URL = "https://script.google.com/macros/s/AKfycbzTElxNBgS5_ZhoFR-JxRtUKUeGox70eh3p_Z9O6p9XZmm1YYJD3KhaCbGYojqVtPOx/exec";
-
-fetch(API_URL)
-  .then(r => r.json())
-  .then(sheet => {
-    const tbody = document.querySelector("#timetable tbody").rows;
-    let ri = 0;
-    // Skip group header rows (Buổi sáng & chiều)
-    for (let r = 1; r < tbody.length; r++) {
-      const row = tbody[r];
-      if (row.cells[0].textContent.startsWith("Tiết")) {
-        const dataRow = sheet[ri++] || [];
-        for (let c = 1; c <= 6; c++) {
-          row.cells[c].textContent = dataRow[c] || "";
-        }
-      }
-    }
-  })
-  .catch(_ => console.error("Không tải được dữ liệu!"));
-</script>
-
+    <h1>THỜI KHÓA BIỂU</h1>
+    <div id="tkb">Đang tải dữ liệu...</div>
 </body>
 </html>
