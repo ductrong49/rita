@@ -1,122 +1,42 @@
 <!DOCTYPE html>
 <html lang="vi">
-<head>
-  <meta charset="UTF-8">
-  <title>Cập nhật thời khóa biểu</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f5f5f5;
-      padding: 20px;
-    }
-    h1 {
-      text-align: center;
-      color: #2c3e50;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 15px;
-      background: white;
-    }
-    th, td {
-      border: 1px solid #ccc;
-      padding: 8px;
-      text-align: center;
-    }
-    th {
-      background: #27ae60;
-      color: white;
-    }
-    input {
-      width: 100%;
-      padding: 5px;
-      border: none;
-      outline: none;
-      text-align: center;
-    }
-    button {
-      margin-top: 15px;
-      padding: 10px 20px;
-      font-size: 16px;
-      background: #27ae60;
-      color: white;
-      border: none;
-      cursor: pointer;
-      border-radius: 5px;
-    }
-    button:hover {
-      background: #219150;
-    }
-  </style>
-</head>
+<head><meta charset="UTF-8"><title>Cập nhật TKB</title></head>
 <body>
-  <h1>Cập nhật thời khóa biểu</h1>
-  <table id="scheduleTable">
-    <thead>
-      <tr>
-        <th>Thứ</th>
-        <th>Buổi</th>
-        <th>Tiết 1</th>
-        <th>Tiết 2</th>
-        <th>Tiết 3</th>
-        <th>Tiết 4</th>
-        <th>Tiết 5</th>
-      </tr>
-    </thead>
-    <tbody>
-      <!-- Mẫu hàng nhập -->
-      <tr>
-        <td><input value="Thứ 2"></td>
-        <td><input value="morning"></td>
-        <td><input></td>
-        <td><input></td>
-        <td><input></td>
-        <td><input></td>
-        <td><input></td>
-      </tr>
-      <tr>
-        <td><input value="Thứ 2"></td>
-        <td><input value="afternoon"></td>
-        <td><input></td>
-        <td><input></td>
-        <td><input></td>
-        <td><input></td>
-        <td><input></td>
-      </tr>
-      <!-- Bạn có thể thêm các hàng cho Thứ 3, Thứ 4... -->
-    </tbody>
-  </table>
-
-  <button onclick="sendData()">Lưu thời khóa biểu</button>
+  <h1>Cập nhật Thời khóa biểu</h1>
+  <form id="formUpdate">
+    <label>Thứ: <input name="day" value="Thứ 2"></label><br>
+    <label>Buổi: <input name="session" value="morning"></label><br>
+    <label>Môn 1: <input name="mon1"></label><br>
+    <label>Môn 2: <input name="mon2"></label><br>
+    <label>Môn 3: <input name="mon3"></label><br>
+    <label>Môn 4: <input name="mon4"></label><br>
+    <label>Môn 5: <input name="mon5"></label><br>
+    <button type="submit">Gửi</button>
+  </form>
+  <div id="status"></div>
 
   <script>
-    const scriptURL = "https://script.google.com/macros/s/AKfycbxQ-u1Emhbp2NIjq6Qj04r1VBBTRMvgjNuQUz6n8Jb4daFBWTAVd7ufAtVnd2TTLPuY/exec";
-
-    function sendData() {
-      const rows = [];
-      const table = document.querySelector("#scheduleTable tbody");
-      for (let tr of table.rows) {
-        const rowData = [];
-        for (let td of tr.cells) {
-          rowData.push(td.querySelector("input").value.trim());
-        }
-        rows.push(rowData);
+    const API_URL = "https://script.google.com/macros/s/AKfycbzUlelXCN8Z7UG6fzCTZai_w4lWdISfS3E-kbFJDq34Of4ypyuVE442SaXclAk6nDhD/exec";
+    document.getElementById("formUpdate").addEventListener("submit", async e => {
+      e.preventDefault();
+      const form = new FormData(e.target);
+      const obj = {};
+      form.forEach((v,k) => obj[k] = v);
+      try {
+        const res = await fetch(API_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(obj)
+        });
+        const json = await res.json();
+        document.getElementById("status").innerText = json.status === "success"
+          ? "Đã lưu thành công!"
+          : `Lỗi: ${json.message || "Không rõ"}`;
+      } catch (err) {
+        document.getElementById("status").innerText = "Không thể kết nối API.";
+        console.error(err);
       }
-
-      fetch(scriptURL, {
-        method: "POST",
-        body: JSON.stringify({ rows: rows }),
-        headers: { "Content-Type": "application/json" }
-      })
-      .then(res => res.json())
-      .then(data => {
-        alert(data.message || "Cập nhật thành công!");
-      })
-      .catch(err => {
-        alert("Lỗi: " + err);
-      });
-    }
+    });
   </script>
 </body>
 </html>
