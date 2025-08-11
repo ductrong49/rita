@@ -1,107 +1,81 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-<meta charset="UTF-8">
-<title>Thời khóa biểu</title>
-<style>
-    body {
-        font-family: Arial, sans-serif;
-        margin: 20px;
-        background: #f8f9fa;
-    }
-    h1 {
-        text-align: center;
-        margin-bottom: 20px;
-    }
-    table {
-        border-collapse: collapse;
-        width: 100%;
-        background: white;
-    }
+  <meta charset="UTF-8">
+  <title>Thời khóa biểu</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; background: #f7f7f7; }
+    h1 { text-align: center; margin-bottom: 20px; }
+    table { width: 100%; border-collapse: collapse; background: white; }
     th, td {
-        border: 1px solid #ccc;
-        padding: 8px;
-        text-align: center;
+      border: 1px solid #ccc;
+      padding: 8px;
+      text-align: center;
     }
-    th {
-        color: white;
-    }
-    /* Màu nền cho các cột Thứ 2 - Thứ 7 */
-    th:nth-child(2) { background: #007bff; } /* Thứ 2 */
-    th:nth-child(3) { background: #28a745; } /* Thứ 3 */
-    th:nth-child(4) { background: #ffc107; color: black; } /* Thứ 4 */
-    th:nth-child(5) { background: #17a2b8; } /* Thứ 5 */
-    th:nth-child(6) { background: #fd7e14; } /* Thứ 6 */
-    th:nth-child(7) { background: #6f42c1; } /* Thứ 7 */
+    th { color: white; }
+    /* Màu nền cho cột Thứ 2 → Thứ 7 */
+    th:nth-child(2) { background: #3498db; } /* Thứ 2 */
+    th:nth-child(3) { background: #2ecc71; } /* Thứ 3 */
+    th:nth-child(4) { background: #f1c40f; color: black;} /* Thứ 4 */
+    th:nth-child(5) { background: #1abc9c; } /* Thứ 5 */
+    th:nth-child(6) { background: #e67e22; } /* Thứ 6 */
+    th:nth-child(7) { background: #9b59b6; } /* Thứ 7 */
 
-    /* Nhóm sáng và chiều */
-    .group-header {
-        background: #e9ecef;
-        font-weight: bold;
-        text-align: left;
-    }
-</style>
+    .group { background: #ecf0f1; font-weight: bold; text-align: left; }
+  </style>
 </head>
 <body>
 
 <h1>Thời khóa biểu</h1>
-<table id="tkb">
-    <thead>
-        <tr>
-            <th>Tiết</th>
-            <th>Thứ 2</th>
-            <th>Thứ 3</th>
-            <th>Thứ 4</th>
-            <th>Thứ 5</th>
-            <th>Thứ 6</th>
-            <th>Thứ 7</th>
-        </tr>
-    </thead>
-    <tbody>
-        <!-- Buổi sáng -->
-        <tr><td class="group-header" colspan="7">Buổi sáng</td></tr>
-        <tr><td>Tiết 1</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-        <tr><td>Tiết 2</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-        <tr><td>Tiết 3</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-        <tr><td>Tiết 4</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-        <tr><td>Tiết 5</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<table id="timetable">
+  <thead>
+    <tr>
+      <th>Tiết</th>
+      <th>Thứ 2</th>
+      <th>Thứ 3</th>
+      <th>Thứ 4</th>
+      <th>Thứ 5</th>
+      <th>Thứ 6</th>
+      <th>Thứ 7</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td class="group" colspan="7">Buổi sáng</td></tr>
+    <tr><td>Tiết 1</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    <tr><td>Tiết 2</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    <tr><td>Tiết 3</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    <tr><td>Tiết 4</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    <tr><td>Tiết 5</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
 
-        <!-- Buổi chiều -->
-        <tr><td class="group-header" colspan="7">Buổi chiều</td></tr>
-        <tr><td>Tiết 1</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-        <tr><td>Tiết 2</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-        <tr><td>Tiết 3</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-        <tr><td>Tiết 4</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-        <tr><td>Tiết 5</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-    </tbody>
+    <tr><td class="group" colspan="7">Buổi chiều</td></tr>
+    <tr><td>Tiết 1</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    <tr><td>Tiết 2</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    <tr><td>Tiết 3</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    <tr><td>Tiết 4</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    <tr><td>Tiết 5</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+  </tbody>
 </table>
 
 <script>
-    const sheetURL = "https://script.google.com/macros/s/AKfycbzTElxNBgS5_ZhoFR-JxRtUKUeGox70eh3p_Z9O6p9XZmm1YYJD3KhaCbGYojqVtPOx/exec";
+const API_URL = "https://script.google.com/macros/s/AKfycbzTElxNBgS5_ZhoFR-JxRtUKUeGox70eh3p_Z9O6p9XZmm1YYJD3KhaCbGYojqVtPOx/exec";
 
-    fetch(sheetURL)
-        .then(res => res.json())
-        .then(data => {
-            const table = document.getElementById("tkb");
-            const rows = table.getElementsByTagName("tbody")[0].getElementsByTagName("tr");
-
-            let dataIndex = 0;
-            for (let r = 0; r < rows.length; r++) {
-                const cells = rows[r].getElementsByTagName("td");
-                if (cells.length === 7 && cells[0].textContent.startsWith("Tiết")) {
-                    for (let c = 1; c < 7; c++) {
-                        if (data[dataIndex] && data[dataIndex][c]) {
-                            cells[c].textContent = data[dataIndex][c];
-                        }
-                    }
-                    dataIndex++;
-                }
-            }
-        })
-        .catch(err => {
-            console.error(err);
-            alert("Lỗi tải dữ liệu!");
-        });
+fetch(API_URL)
+  .then(r => r.json())
+  .then(sheet => {
+    const tbody = document.querySelector("#timetable tbody").rows;
+    let ri = 0;
+    // Skip group header rows (Buổi sáng & chiều)
+    for (let r = 1; r < tbody.length; r++) {
+      const row = tbody[r];
+      if (row.cells[0].textContent.startsWith("Tiết")) {
+        const dataRow = sheet[ri++] || [];
+        for (let c = 1; c <= 6; c++) {
+          row.cells[c].textContent = dataRow[c] || "";
+        }
+      }
+    }
+  })
+  .catch(_ => console.error("Không tải được dữ liệu!"));
 </script>
 
 </body>
