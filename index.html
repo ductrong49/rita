@@ -1,135 +1,146 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>THỜI KHÓA BIỂU LỚP 8A9</title>
-<style>
-    body {
-        font-family: Arial, sans-serif;
-        background: url('background.jpg') no-repeat center center fixed;
-        background-size: cover;
-        margin: 0;
-        padding: 0;
-    }
-    h1 {
-        text-align: center;
-        margin-top: 10px;
-        color: darkblue;
-        background-color: rgba(255,255,255,0.8);
-        padding: 10px;
-        border-radius: 10px;
-        display: inline-block;
-    }
-    .info {
-        text-align: center;
-        margin: 5px 0;
-        font-size: 16px;
-        color: black;
-        background-color: rgba(255,255,255,0.8);
-        padding: 5px;
-        border-radius: 10px;
-        display: inline-block;
-    }
-    table {
-        width: 95%;
-        margin: 20px auto;
-        border-collapse: collapse;
-        background-color: rgba(255,255,255,0.9);
-    }
-    th, td {
-        border: 1px solid #999;
-        padding: 8px;
-        text-align: center;
-    }
-    th {
-        background-color: #77c;
-        color: white;
-    }
-    .morning {
-        color: blue;
-    }
-    .afternoon {
-        color: brown;
-    }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>THỜI KHÓA BIỂU LỚP 8A9</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: url('background.jpg') no-repeat center center fixed;
+            background-size: cover;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+        h1 {
+            text-align: center;
+            color: #004085;
+            margin: 10px 0;
+        }
+        .teacher-info {
+            text-align: center;
+            font-size: 1.1em;
+            margin-bottom: 10px;
+        }
+        .week-info, .date-info {
+            text-align: center;
+            font-size: 1.1em;
+            margin: 5px 0;
+            font-weight: bold;
+        }
+        table {
+            width: 90%;
+            margin: auto;
+            border-collapse: collapse;
+            background-color: rgba(255, 255, 255, 0.85);
+            box-shadow: 0px 0px 10px rgba(0,0,0,0.2);
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 6px;
+            text-align: center;
+        }
+        th {
+            color: white;
+        }
+        th:nth-child(1) { background-color: #28a745; }
+        th:nth-child(2) { background-color: #17a2b8; }
+        th:nth-child(3) { background-color: #ffc107; }
+        th:nth-child(4) { background-color: #dc3545; }
+        th:nth-child(5) { background-color: #6f42c1; }
+        th:nth-child(6) { background-color: #fd7e14; }
+        .morning td {
+            color: blue;
+        }
+        .afternoon td {
+            color: brown;
+        }
+    </style>
 </head>
 <body>
 
-<div style="text-align:center;">
     <h1>THỜI KHÓA BIỂU LỚP 8A9</h1>
-    <div class="info">Giáo viên chủ nhiệm: NGUYỄN THỊ A - SĐT: 0912345678</div>
-    <div class="info" id="currentDate"></div>
-    <div class="info" id="weekInfo"></div>
-</div>
+    <div class="teacher-info">
+        Giáo viên chủ nhiệm: <b>NGUYỄN THỊ A</b> - SĐT: <b>0912345678</b>
+    </div>
+    <div class="week-info" id="weekInfo"></div>
+    <div class="date-info" id="dateInfo"></div>
 
-<table id="tkbTable">
-    <thead>
-        <tr>
-            <th>Buổi/Tiết</th>
-            <th>Thứ 2</th>
-            <th>Thứ 3</th>
-            <th>Thứ 4</th>
-            <th>Thứ 5</th>
-            <th>Thứ 6</th>
-            <th>Thứ 7</th>
-        </tr>
-    </thead>
-    <tbody id="tkbBody">
-    </tbody>
-</table>
+    <table id="tkb">
+        <thead>
+            <tr>
+                <th>Thứ 2</th>
+                <th>Thứ 3</th>
+                <th>Thứ 4</th>
+                <th>Thứ 5</th>
+                <th>Thứ 6</th>
+                <th>Thứ 7</th>
+            </tr>
+        </thead>
+        <tbody id="tableBody"></tbody>
+    </table>
 
-<script>
-    const url = "https://script.google.com/macros/s/AKfycbzTElxNBgS5_ZhoFR-JxRtUKUeGox70eh3p_Z9O6p9XZmm1YYJD3KhaCbGYojqVtPOx/exec";
+    <script>
+        const sheetURL = "https://script.google.com/macros/s/AKfycbzTElxNBgS5_ZhoFR-JxRtUKUeGox70eh3p_Z9O6p9XZmm1YYJD3KhaCbGYojqVtPOx/exec";
 
-    fetch(url)
-        .then(res => res.json())
-        .then(data => {
-            const body = document.getElementById('tkbBody');
-            body.innerHTML = "";
+        // Hiển thị tuần học
+        function displayWeekInfo() {
+            const startDate = new Date(2025, 8, 8); // 08/09/2025
+            const today = new Date();
+            const msPerDay = 1000 * 60 * 60 * 24;
+            const diffDays = Math.floor((today - startDate) / msPerDay);
 
-            let rows = [];
-
-            // Buổi sáng: tiết 1-5 (B3->B7)
-            for (let i = 3; i <= 7; i++) {
-                let row = `<tr class="morning"><td>Sáng - Tiết ${i-2}</td>`;
-                for (let col = 1; col <= 6; col++) {
-                    row += `<td>${data[i][col] || ''}</td>`;
-                }
-                row += "</tr>";
-                rows.push(row);
+            let text = "";
+            if (today < startDate) {
+                text = `Còn ${Math.abs(diffDays)} ngày nữa đến tuần học đầu tiên`;
+            } else {
+                const weekNumber = Math.floor(diffDays / 7) + 1;
+                text = `Tuần học: Tuần ${weekNumber}`;
             }
+            document.getElementById("weekInfo").innerText = text;
+        }
 
-            // Buổi chiều: tiết 1-5 (B9->B13)
-            for (let i = 9; i <= 13; i++) {
-                let row = `<tr class="afternoon"><td>Chiều - Tiết ${i-8}</td>`;
-                for (let col = 1; col <= 6; col++) {
-                    row += `<td>${data[i][col] || ''}</td>`;
+        // Hiển thị ngày hiện tại
+        function displayCurrentDate() {
+            const today = new Date();
+            const days = ["Chủ Nhật", "Thứ 2", "Thứ 3", "Thứ 4", "Thứ 5", "Thứ 6", "Thứ 7"];
+            const dayName = days[today.getDay()];
+            const dateStr = `${dayName}, ${today.getDate().toString().padStart(2,'0')}/${(today.getMonth()+1).toString().padStart(2,'0')}/${today.getFullYear()}`;
+            document.getElementById("dateInfo").innerText = dateStr;
+        }
+
+        // Lấy dữ liệu TKB từ Google Sheet
+        fetch(sheetURL)
+            .then(res => res.json())
+            .then(data => {
+                const tableBody = document.getElementById("tableBody");
+                let html = "";
+
+                // Buổi sáng (B3-B7 => tiết 1-5)
+                for (let i = 0; i < 5; i++) {
+                    html += "<tr class='morning'>";
+                    for (let j = 0; j < 6; j++) {
+                        html += `<td>${data[j][i] || ""}</td>`;
+                    }
+                    html += "</tr>";
                 }
-                row += "</tr>";
-                rows.push(row);
-            }
 
-            body.innerHTML = rows.join("");
-        });
+                // Buổi chiều (B9-B13 => tiết 1-5)
+                for (let i = 5; i < 10; i++) {
+                    html += "<tr class='afternoon'>";
+                    for (let j = 0; j < 6; j++) {
+                        html += `<td>${data[j][i] || ""}</td>`;
+                    }
+                    html += "</tr>";
+                }
 
-    // Hiển thị ngày hiện tại
-    const today = new Date();
-    const days = ["Chủ nhật", "Thứ 2", "Thứ 3", "Thứ 4", "Thứ 5", "Thứ 6", "Thứ 7"];
-    document.getElementById('currentDate').textContent =
-        days[today.getDay()] + ", " + today.toLocaleDateString('vi-VN');
+                tableBody.innerHTML = html;
+            });
 
-    // Tính tuần hoặc đếm ngược
-    const startDate = new Date(2025, 8, 8); // 8/9/2025 (tháng 8 vì JS bắt đầu từ 0)
-    let diff = today - startDate;
-    if (diff >= 0) {
-        let week = Math.floor(diff / (7*24*60*60*1000)) + 1;
-        document.getElementById('weekInfo').textContent = "Tuần học: " + week;
-    } else {
-        let daysLeft = Math.ceil((startDate - today) / (24*60*60*1000));
-        document.getElementById('weekInfo').textContent = "Còn " + daysLeft + " ngày đến tuần 1";
-    }
-</script>
+        displayWeekInfo();
+        displayCurrentDate();
+    </script>
 
 </body>
 </html>
