@@ -2,99 +2,112 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-<title>Thời Khóa Biểu</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>THỜI KHÓA BIỂU LỚP 8A9</title>
 <style>
     body {
         font-family: Arial, sans-serif;
-        text-align: center;
-        background: #f8f9fa;
+        background: url('background.jpg') no-repeat center center fixed;
+        background-size: cover;
         margin: 0;
+        padding: 0;
+    }
+    .container {
+        background-color: rgba(255, 255, 255, 0.9);
         padding: 20px;
+        max-width: 1000px;
+        margin: auto;
+        border-radius: 10px;
+        box-shadow: 0px 4px 15px rgba(0,0,0,0.2);
     }
     h1 {
+        text-align: center;
+        color: #2c3e50;
+        margin-bottom: 5px;
+    }
+    .info {
+        text-align: center;
+        font-size: 16px;
         margin-bottom: 20px;
+        color: #555;
     }
     table {
+        width: 100%;
         border-collapse: collapse;
-        margin: 0 auto;
-        background: white;
-        box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
     th, td {
         border: 1px solid #ccc;
-        padding: 8px 12px;
-        min-width: 100px;
+        text-align: center;
+        padding: 10px;
     }
     th {
-        color: white;
+        color: #fff;
     }
-    .thu2 { background: #4caf50; }
-    .thu3 { background: #2196f3; }
-    .thu4 { background: #ff9800; }
-    .thu5 { background: #9c27b0; }
-    .thu6 { background: #009688; }
-    .thu7 { background: #e91e63; }
-    .buoi {
-        background: #eee;
+    /* Màu cột tiêu đề các thứ */
+    th:nth-child(2) { background-color: #6BB5FF; }
+    th:nth-child(3) { background-color: #78E8C6; }
+    th:nth-child(4) { background-color: #FBC971; }
+    th:nth-child(5) { background-color: #FFA1A1; }
+    th:nth-child(6) { background-color: #BFA8FF; }
+    th:nth-child(7) { background-color: #FFB6E0; }
+    /* Màu nền nội dung từng cột */
+    td:nth-child(2) { background-color: #E8F4FF; }
+    td:nth-child(3) { background-color: #E9FFF6; }
+    td:nth-child(4) { background-color: #FFF6E4; }
+    td:nth-child(5) { background-color: #FFEAEA; }
+    td:nth-child(6) { background-color: #F4F0FF; }
+    td:nth-child(7) { background-color: #FFF0F7; }
+    /* Chữ màu cho buổi sáng & chiều */
+    .morning td {
+        color: #0066CC;
+        font-weight: bold;
+    }
+    .afternoon td {
+        color: #8B4513;
+        font-weight: bold;
+    }
+    /* Nhóm buổi sáng & chiều */
+    .session-title {
+        background-color: #ddd;
         font-weight: bold;
         text-align: left;
+        padding-left: 10px;
+        color: #333;
     }
 </style>
-<script src="https://www.gstatic.com/charts/loader.js"></script>
-<script>
-google.charts.load('current', {packages: ['corechart']});
-google.charts.setOnLoadCallback(loadData);
-
-function loadData() {
-    const query = new google.visualization.Query(
-        'https://docs.google.com/spreadsheets/d/1ckCsWVDPa7qw2NjuBrOjySMZGEb2vCnuGIgXS5l9IM8/gviz/tq?tqx=out:json'
-    );
-    query.send(handleData);
-}
-
-function handleData(response) {
-    if (response.isError()) {
-        alert('Lỗi tải dữ liệu: ' + response.getMessage());
-        return;
-    }
-
-    const data = response.getDataTable();
-    let html = '<table>';
-    html += '<tr><th></th>' +
-            '<th class="thu2">Thứ 2</th>' +
-            '<th class="thu3">Thứ 3</th>' +
-            '<th class="thu4">Thứ 4</th>' +
-            '<th class="thu5">Thứ 5</th>' +
-            '<th class="thu6">Thứ 6</th>' +
-            '<th class="thu7">Thứ 7</th></tr>';
-
-    // Buổi sáng
-    html += '<tr><td class="buoi" colspan="7">Buổi sáng</td></tr>';
-    for (let row = 2; row <= 6; row++) { // hàng 3-7 trong sheet (index bắt đầu từ 0)
-        html += `<tr><td>Tiết ${row - 1}</td>`;
-        for (let col = 1; col <= 6; col++) { // B → G
-            html += `<td>${data.getFormattedValue(row, col) || ''}</td>`;
-        }
-        html += '</tr>';
-    }
-
-    // Buổi chiều
-    html += '<tr><td class="buoi" colspan="7">Buổi chiều</td></tr>';
-    for (let row = 8; row <= 12; row++) { // hàng 9-13
-        html += `<tr><td>Tiết ${row - 7}</td>`;
-        for (let col = 1; col <= 6; col++) { // B → G
-            html += `<td>${data.getFormattedValue(row, col) || ''}</td>`;
-        }
-        html += '</tr>';
-    }
-
-    html += '</table>';
-    document.getElementById('tkb').innerHTML = html;
-}
-</script>
 </head>
 <body>
-    <h1>THỜI KHÓA BIỂU</h1>
-    <div id="tkb">Đang tải dữ liệu...</div>
+<div class="container">
+    <h1>THỜI KHÓA BIỂU LỚP 8A9</h1>
+    <div class="info">GVCN: NGUYỄN THỊ A | SĐT: 0912345678</div>
+    <table>
+        <thead>
+            <tr>
+                <th>Tiết</th>
+                <th>Thứ 2</th>
+                <th>Thứ 3</th>
+                <th>Thứ 4</th>
+                <th>Thứ 5</th>
+                <th>Thứ 6</th>
+                <th>Thứ 7</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td colspan="7" class="session-title">Buổi Sáng</td></tr>
+            <tr class="morning"><td>Tiết 1</td><td>B3</td><td>C3</td><td>D3</td><td>E3</td><td>F3</td><td>G3</td></tr>
+            <tr class="morning"><td>Tiết 2</td><td>B4</td><td>C4</td><td>D4</td><td>E4</td><td>F4</td><td>G4</td></tr>
+            <tr class="morning"><td>Tiết 3</td><td>B5</td><td>C5</td><td>D5</td><td>E5</td><td>F5</td><td>G5</td></tr>
+            <tr class="morning"><td>Tiết 4</td><td>B6</td><td>C6</td><td>D6</td><td>E6</td><td>F6</td><td>G6</td></tr>
+            <tr class="morning"><td>Tiết 5</td><td>B7</td><td>C7</td><td>D7</td><td>E7</td><td>F7</td><td>G7</td></tr>
+            
+            <tr><td colspan="7" class="session-title">Buổi Chiều</td></tr>
+            <tr class="afternoon"><td>Tiết 1</td><td>B9</td><td>C9</td><td>D9</td><td>E9</td><td>F9</td><td>G9</td></tr>
+            <tr class="afternoon"><td>Tiết 2</td><td>B10</td><td>C10</td><td>D10</td><td>E10</td><td>F10</td><td>G10</td></tr>
+            <tr class="afternoon"><td>Tiết 3</td><td>B11</td><td>C11</td><td>D11</td><td>E11</td><td>F11</td><td>G11</td></tr>
+            <tr class="afternoon"><td>Tiết 4</td><td>B12</td><td>C12</td><td>D12</td><td>E12</td><td>F12</td><td>G12</td></tr>
+            <tr class="afternoon"><td>Tiết 5</td><td>B13</td><td>C13</td><td>D13</td><td>E13</td><td>F13</td><td>G13</td></tr>
+        </tbody>
+    </table>
+</div>
 </body>
 </html>
