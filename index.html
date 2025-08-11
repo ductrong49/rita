@@ -1,99 +1,89 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Thời khóa biểu</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      background-color: #f4f4f4;
-    }
-    h1 {
-      text-align: center;
-      background-color: #4CAF50;
-      color: white;
-      padding: 10px 0;
-      margin: 0;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      background: white;
-    }
-    th, td {
-      border: 1px solid #ddd;
-      padding: 8px;
-      text-align: center;
-    }
-    th {
-      background-color: #2E7D32;
-      color: white;
-    }
-    tr:nth-child(even) {
-      background-color: #f9f9f9;
-    }
-    #lastUpdated {
-      text-align: center;
-      margin: 10px 0;
-      font-style: italic;
-      color: gray;
-    }
-    #error {
-      text-align: center;
-      color: red;
-      font-weight: bold;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Danh sách dữ liệu</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #f4f4f4;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background: #4CAF50;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background: #f9f9f9;
+        }
+        #error {
+            color: red;
+            font-weight: bold;
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
 
-  <h1>📅 Thời khóa biểu</h1>
-  <div id="lastUpdated"></div>
-  <div id="error"></div>
-  <table id="scheduleTable">
+<h1>Danh sách dữ liệu</h1>
+<div id="error"></div>
+<table>
     <thead>
-      <tr>
-        <th>Ngày</th>
-        <th>Buổi sáng</th>
-        <th>Buổi chiều</th>
-      </tr>
+        <tr>
+            <th>STT</th>
+            <th>Tên</th>
+            <th>Email</th>
+            <th>Điện thoại</th>
+        </tr>
     </thead>
-    <tbody></tbody>
-  </table>
+    <tbody id="data"></tbody>
+</table>
 
-  <script>
-    async function loadSchedule() {
-      try {
-        const response = await fetch("https://script.google.com/macros/s/AKfycbzUlelXCN8Z7UG6fzCTZai_w4lWdISfS3E-kbFJDq34Of4ypyuVE442SaXclAk6nDhD/exec");
-        if (!response.ok) throw new Error("Lỗi tải dữ liệu!");
-        
-        const data = await response.json();
-        const tableBody = document.querySelector("#scheduleTable tbody");
-        tableBody.innerHTML = "";
+<script>
+    async function loadData() {
+        const apiUrl = "https://script.google.com/macros/s/AKfycbzTElxNBgS5_ZhoFR-JxRtUKUeGox70eh3p_Z9O6p9XZmm1YYJD3KhaCbGYojqVtPOx/exec";
+        const errorEl = document.getElementById("error");
+        const tableBody = document.getElementById("data");
 
-        for (const [day, sessions] of Object.entries(data.schedule)) {
-          const row = document.createElement("tr");
-          row.innerHTML = `
-            <td>${day}</td>
-            <td>${sessions.morning.join("<br>")}</td>
-            <td>${sessions.afternoon.join("<br>")}</td>
-          `;
-          tableBody.appendChild(row);
+        try {
+            let res = await fetch(apiUrl);
+            if (!res.ok) throw new Error("Không thể tải dữ liệu");
+            let data = await res.json();
+
+            tableBody.innerHTML = "";
+            data.forEach((row, i) => {
+                let tr = document.createElement("tr");
+                tr.innerHTML = `
+                    <td>${i + 1}</td>
+                    <td>${row.Ten || ""}</td>
+                    <td>${row.Email || ""}</td>
+                    <td>${row.DienThoai || ""}</td>
+                `;
+                tableBody.appendChild(tr);
+            });
+        } catch (err) {
+            errorEl.textContent = "Lỗi tải dữ liệu!";
+            console.error(err);
         }
-
-        document.getElementById("lastUpdated").innerText =
-          "Cập nhật lần cuối: " + new Date(data.lastUpdated).toLocaleString("vi-VN");
-      } catch (error) {
-        document.getElementById("error").innerText = "Lỗi tải dữ liệu!";
-        console.error(error);
-      }
     }
 
-    loadSchedule();
-  </script>
+    loadData();
+</script>
 
 </body>
 </html>
