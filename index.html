@@ -79,7 +79,7 @@
   thead th:nth-child(7){ background:var(--head-7); color:#111; }
 
   td{ padding:10px 8px; border:1px solid rgba(0,0,0,0.06); vertical-align:middle; font-size:14px; }
-  tbody td:first-child{ text-align:left; font-weight:600; background:#fafafa; width:88px; }
+  tbody td:first-child{ text-align:center; font-weight:600; background:#fafafa; width:88px; }
 
   /* column backgrounds (content) */
   tbody td:nth-child(2){ background:var(--col-2); }
@@ -92,7 +92,7 @@
   /* session titles */
   .session-row td{
     background:#eef3f7;
-    text-align:left;
+    text-align:center;
     font-weight:700;
     padding-left:12px;
     color:#333;
@@ -198,7 +198,7 @@
       td.innerHTML = text ? text.toString().replace(/\n/g,"<br>") : '<span class="empty">—</span>';
     });
 
-    document.getElementById("status").textContent = "Dữ liệu cập nhật từ Sheet1.";
+    document.getElementById("status").textContent = "Dữ liệu được lấy từ App VNEdu";
   } catch (err) {
     console.error(err);
     document.getElementById("status").textContent = "Không thể tải dữ liệu: " + err.message;
